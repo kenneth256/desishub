@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/lib/useStore";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -14,6 +15,7 @@ interface Question {
 }
 
 const Page = () => {
+  const router = useRouter();
   const { tier } = useStore();
   const [questions, setQuestion] = useState<Question[]>([]);
   const [loading, setLoading] = useState(false);
@@ -76,6 +78,7 @@ const Page = () => {
       toast.success(
         "you have successfully submitted your response, our HR will be reching out soon!"
       );
+      router.push("/");
       setIsSubmitting(false);
     } catch (error) {
       console.log(error);
