@@ -26,8 +26,7 @@ export async function POST(req: Request) {
     const response = await prisma.question.create({
       data: {
         questionText: question,
-        tier: 0,
-        tierLabel: tierUpper as TierLabel,
+        tier: tierUpper as TierLabel,
         correctAnswer: true
       },
     });
