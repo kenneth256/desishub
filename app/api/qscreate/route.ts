@@ -14,8 +14,14 @@ export async function POST(req: Request) {
       );
     }
 
+ 
     const tierUpper = tier.toUpperCase();
-  
+    if (!Object.values(TierLabel).includes(tierUpper as TierLabel)) {
+      return NextResponse.json(
+        { error: "Invalid tier value" },
+        { status: 400 }
+      );
+    }
 
     const response = await prisma.question.create({
       data: {
@@ -51,9 +57,14 @@ export async function GET(req: Request) {
       );
     }
 
-  
+    // Validate tier is a valid enum value
     const tierUpper = tier.toUpperCase();
-   
+    if (!Object.values(TierLabel).includes(tierUpper as TierLabel)) {
+      return NextResponse.json(
+        { error: 'Invalid tier value' },
+        { status: 400 }
+      );
+    }
 
     const response = await prisma.question.findMany({
       where: { tierLabel: tierUpper as TierLabel }
