@@ -23,7 +23,7 @@ model CANDIDATE {
 
 model Question {
   id            String       @id @default(uuid())
-  tier          Int         
+  tier          String         
   tierLabel     TierLabel    
   questionText  String
   correctAnswer Boolean     

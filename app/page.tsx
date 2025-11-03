@@ -131,11 +131,11 @@ const Page = () => {
                 <SelectValue placeholder="Select a tier group" />
               </SelectTrigger>
               <SelectContent className="w-full">
-                {tiers.map((tier, key) => (
+                {tiers.map((tier, index) => (
                   <SelectItem
                     className="uppercase"
                     value={tier.label}
-                    key={key}
+                    key={index}
                   >
                     {tier.name}
                   </SelectItem>

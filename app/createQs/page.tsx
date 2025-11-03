@@ -11,18 +11,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import axios from "axios";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { TierLabel } from "@prisma/client";
 
-type Question = {
+import { useForm } from "react-hook-form";
+
+type QuestionForm = {
   question: string;
   tierLabel: string;
 };
 
 const tiersArray = [
   "BEGINNER",
-  "CRUD DEVELOPER",
+  "CRUD_DEVELOPER",
   "FULLSTACK",
   "MULTIFRAMEWORK",
   "ADVANCED",
@@ -36,9 +35,9 @@ const Page = () => {
     formState: { errors, isSubmitting },
     reset,
     setError,
-  } = useForm<Question>();
+  } = useForm<QuestionForm>();
 
-  const handleCreateQs = async (data: Question) => {
+  const handleCreateQs = async (data: QuestionForm) => {
     try {
       if (!tier) {
         setError("tierLabel", {
@@ -48,18 +47,25 @@ const Page = () => {
         return;
       }
 
-      const datas = {
+      
+      const payload = {
         question: data.question,
-        tier: tier as TierLabel,
+        tier: tier,
       };
 
-      const result = await axios.post("/api/qscreate", datas);
+      console.log("Sending payload:", payload);
+
+      const result = await axios.post("/api/qscreate", payload);
+
+      console.log("Success:", result.data);
+
+    
+      alert("Question created successfully!");
 
       reset();
       setTier("");
     } catch (error) {
       console.error("Error creating question:", error);
-
       setError("root", {
         type: "manual",
         message: "Failed to create question. Please try again.",

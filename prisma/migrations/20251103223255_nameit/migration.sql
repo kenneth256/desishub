@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Question" ALTER COLUMN "tier" SET DATA TYPE TEXT;

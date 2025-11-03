@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useStore } from "@/lib/useStore";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface Question {
   id: string;
@@ -49,10 +50,12 @@ const Page = () => {
   };
 
   const handleSubmit = async (data: any) => {
+    setIsSubmitting(true);
     try {
       const storedUser = localStorage.getItem("user");
       if (!storedUser) {
         console.error("No user found in localStorage");
+        setIsSubmitting(false);
         return;
       }
       const user = JSON.parse(storedUser);
@@ -70,8 +73,13 @@ const Page = () => {
         answers: answersArray,
         candidateId,
       });
+      toast.success(
+        "you have successfully submitted your response, our HR will be reching out soon!"
+      );
+      setIsSubmitting(false);
     } catch (error) {
       console.log(error);
+      setIsSubmitting(false);
     }
   };
 

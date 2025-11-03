@@ -14,8 +14,9 @@ export async function POST(req: Request) {
       );
     }
 
- 
     const tierUpper = tier.toUpperCase();
+    
+   
     if (!Object.values(TierLabel).includes(tierUpper as TierLabel)) {
       return NextResponse.json(
         { error: "Invalid tier value" },
@@ -23,10 +24,17 @@ export async function POST(req: Request) {
       );
     }
 
+    console.log('Creating question with:', {
+      questionText: question,
+      tier: tierUpper,
+      tierLabel: tierUpper
+    });
+
     const response = await prisma.question.create({
       data: {
         questionText: question,
-        tier: tierUpper as TierLabel,
+        tier: tierUpper,                    // ✅ STRING now
+        tierLabel: tierUpper as TierLabel,  // ENUM for reference
         correctAnswer: true
       },
     });
@@ -56,8 +64,9 @@ export async function GET(req: Request) {
       );
     }
 
-    // Validate tier is a valid enum value
+  
     const tierUpper = tier.toUpperCase();
+    
     if (!Object.values(TierLabel).includes(tierUpper as TierLabel)) {
       return NextResponse.json(
         { error: 'Invalid tier value' },
@@ -70,7 +79,6 @@ export async function GET(req: Request) {
     });
 
     return NextResponse.json(response, { status: 200 });
-    
   } catch (error) {
     console.error('Error fetching questions:', error);
     return NextResponse.json(
