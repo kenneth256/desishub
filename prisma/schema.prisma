@@ -11,24 +11,23 @@ datasource db {
 }
 
 model CANDIDATE {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   fullName   String
-  email      String   @unique
-  phone      String   @unique
-  tier String
+  email      String    @unique
+  phone      String    @unique
+  tier       TierLabel // Changed to enum
   answers    Answer[]
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model Question {
-  id            String       @id @default(uuid())
-  tier          Int         
-  tierLabel     TierLabel    
+  id            String    @id @default(uuid())
+  tier          TierLabel // Changed to enum (removed Int tier)
   questionText  String
   correctAnswer Boolean     
   answers       Answer[]
-  createdAt     DateTime     @default(now())
+  createdAt     DateTime  @default(now())
   
   @@index([tier])
 }

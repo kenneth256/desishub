@@ -15,8 +15,9 @@ interface Question {
 const Page = () => {
   const { tier } = useStore();
   const [questions, setQuestion] = useState<Question[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [answers, setAnswers] = useState<Record<string, boolean>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const options = [
     { label: "True", value: true },
@@ -111,8 +112,12 @@ const Page = () => {
         )}
       </div>
       {questions.length > 0 && (
-        <Button className="mt-6 w-full" onClick={() => handleSubmit(answers)}>
-          Submit Answers
+        <Button
+          disabled={isSubmitting}
+          className="mt-6 w-full disabled:bg-black/60 disabled:text-white/60"
+          onClick={() => handleSubmit(answers)}
+        >
+          {isSubmitting ? "submitting..." : " Submit Answers"}
         </Button>
       )}
     </div>
