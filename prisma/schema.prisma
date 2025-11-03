@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model CANDIDATE {
+  id         String   @id @default(uuid())
+  fullName   String
+  email      String   @unique
+  phone      String   @unique
+  tier String
+  answers    Answer[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Question {
+  id            String       @id @default(uuid())
+  tier          Int         
+  tierLabel     TierLabel    
+  questionText  String
+  correctAnswer Boolean     
+  answers       Answer[]
+  createdAt     DateTime     @default(now())
+  
+  @@index([tier])
+}
+
+model Answer {
+  id             String    @id @default(uuid())
+  candidateId    String
+  candidate      CANDIDATE @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  questionId     String
+  question       Question  @relation(fields: [questionId], references: [id])
+  selectedAnswer Boolean   
+  answeredAt     DateTime  @default(now())
+  
+  @@unique([candidateId, questionId])
+}
+
+enum TierLabel {
+  BEGINNER           
+  CRUD_DEVELOPER     
+  FULLSTACK          
+  MULTIFRAMEWORK     
+  ADVANCED           
+}
