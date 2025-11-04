@@ -59,7 +59,6 @@ const page = () => {
                 {candidate.answers && candidate.answers.length > 0
                   ? `${calculatePercent(candidate.answers)}%`
                   : 0}{" "}
-                %
               </TableCell>
             </TableRow>
           ))}
