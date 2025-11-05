@@ -2,26 +2,27 @@
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/lib/useStore";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 interface Question {
   id: string;
   questionText: string;
-  tier: number;
+  tier: string;
   tierLabel: string;
-  correctAnswer: boolean;
 }
 
 const Page = () => {
   const router = useRouter();
-  const { tier } = useStore();
   const [questions, setQuestion] = useState<Question[]>([]);
   const [loading, setLoading] = useState(false);
   const [answers, setAnswers] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const params = useParams();
+  const tierFromUrl = params.id as string;
+  console.log("tier", tierFromUrl);
   const options = [
     { label: "True", value: true },
     { label: "False", value: false },
@@ -31,7 +32,9 @@ const Page = () => {
     const fetchQuestions = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("/api/qscreate", { params: { tier } });
+        const response = await axios.get("/api/qscreate", {
+          params: { tier: tierFromUrl },
+        });
         setQuestion(response.data);
       } catch (error) {
         console.error("Error fetching questions:", error);
@@ -40,12 +43,12 @@ const Page = () => {
       }
     };
 
-    if (tier) {
+    if (tierFromUrl) {
       fetchQuestions();
     } else {
       setLoading(false);
     }
-  }, [tier]);
+  }, [tierFromUrl]);
 
   const handleAnswer = (questionId: string, answer: boolean) => {
     setAnswers((prev) => ({ ...prev, [questionId]: answer }));
@@ -88,12 +91,13 @@ const Page = () => {
 
   if (loading) return <div className="p-4">Loading questions...</div>;
 
-  if (!tier) return <div className="p-4">Please select a tier first</div>;
+  if (!tierFromUrl)
+    return <div className="p-4">Please select a tier first</div>;
 
   return (
     <div className="p-4">
       <h1 className="uppercase font-bold text-2xl mb-6">
-        ANSWER THESE QUESTIONS FOR {tier}
+        ANSWER THESE QUESTIONS FOR {tierFromUrl}
       </h1>
       <div className="space-y-4">
         {questions.length > 0 ? (
@@ -119,7 +123,7 @@ const Page = () => {
             </div>
           ))
         ) : (
-          <p>No questions available for {tier}</p>
+          <p>No questions available for {tierFromUrl}</p>
         )}
       </div>
       {questions.length > 0 && (
