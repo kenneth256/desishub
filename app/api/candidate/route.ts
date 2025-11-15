@@ -15,7 +15,19 @@ export async function POST(req: Request) {
         { error: "All fields are required" },
         { status: 400 }
       );
-    }; 
+    };
+   
+const existingCandidate = await prisma.cANDIDATE.findUnique({
+  where: { email },
+});
+
+if (existingCandidate) {
+  return NextResponse.json(
+    { error: "Email is already registered" },
+    { status: 409 }
+  );
+}
+
     const hashedPassword = await bcrypt.hash(passWord, 10)
     const response = await  prisma.cANDIDATE.create({
         data: {
@@ -62,7 +74,7 @@ export async function GET(req: Request) {
       where: { email },
     });
 
-    if (!candidate) {
+    if (candidate) {
       return new Response(JSON.stringify({ error: "Candidate not found" }), { status: 404 });
     }
 

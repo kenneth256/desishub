@@ -49,8 +49,9 @@ const Page = () => {
       const userExists = await axios.get("/api/candidate", {
         params: { email: data.email },
       });
-      if (userExists) {
+      if (userExists.data) {
         alert("You already attempted this exercise!");
+        return;
       }
       const result = await axios.post("/api/candidate", data);
       const userData = { ...data, TierLabel };
