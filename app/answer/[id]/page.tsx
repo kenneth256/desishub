@@ -5,7 +5,8 @@ import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
-
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 interface Question {
   id: string;
   questionText: string;
@@ -57,15 +58,17 @@ const Page = () => {
   const handleSubmit = async (data: any) => {
     setIsSubmitting(true);
     try {
-      const storedUser = localStorage.getItem("user");
-      if (!storedUser) {
-        console.error("No user found in localStorage");
-        setIsSubmitting(false);
+      const token = Cookies.get("token");
+      if (!token) {
+        toast.error("User not logged in!");
+        router.push("/login");
         return;
       }
-      const user = JSON.parse(storedUser);
+      const decoded: any = jwtDecode(token);
+      const userEmail = decoded.email;
+
       const candidateResponse = await axios.get("/api/candidate", {
-        params: { email: user.email },
+        params: { email: userEmail },
       });
 
       const candidateId = candidateResponse.data.id;
