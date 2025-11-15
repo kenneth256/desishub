@@ -39,10 +39,10 @@ const Page = () => {
   };
 
   const getScoreBadgeVariant = (score: number) => {
-    if (score >= 80) return "default"; // green
-    if (score >= 60) return "secondary"; // blue
-    if (score >= 40) return "outline"; // yellow
-    return "destructive"; // red
+    if (score >= 80) return "default"; 
+    if (score >= 60) return "secondary"; 
+    if (score >= 40) return "outline"; 
+    return "destructive"; 
   };
 
   const getTierColor = (tier: string) => {
