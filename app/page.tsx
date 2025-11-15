@@ -46,7 +46,7 @@ const Page = () => {
   const router = useRouter();
   const submitInfo = async (data: FormData) => {
     try {
-      const userExists = await axios.get("/api/canditate", {
+      const userExists = await axios.get("/api/candidate", {
         params: { email: data.email },
       });
       if (userExists) {
