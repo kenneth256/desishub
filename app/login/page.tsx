@@ -52,7 +52,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 px-4">
+    <div className="w-full min-h-screen flex justify-center items-center bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-2">Welcome Back</h1>

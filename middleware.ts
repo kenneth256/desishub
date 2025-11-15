@@ -9,12 +9,12 @@ export function middleware(request: NextRequest) {
   const isHomePage = pathname === "/";
   const isAnswerPage = pathname.startsWith("/answer");
 
-  // 1️⃣ Logged-in user accessing "/" or "/login" → redirect to /answer
+
   if (token && (isLoginPage || isHomePage)) {
     return NextResponse.redirect(new URL("/answer", request.url));
   }
 
-  // 2️⃣ Not logged in and trying to access /answer/[id] → redirect to /login
+ 
   if (!token && isAnswerPage) {
     return NextResponse.redirect(new URL("/login", request.url));
   }

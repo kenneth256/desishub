@@ -84,7 +84,7 @@ const Page = () => {
       toast.success(
         "you have successfully submitted your response, our HR will be reching out soon!"
       );
-      router.push("/");
+      router.push("/success");
       setIsSubmitting(false);
     } catch (error) {
       console.log(error);

@@ -113,14 +113,14 @@ const Page = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 px-4 py-12">
+    <div className="w-full min-h-screen flex justify-center items-center px-4 py-12">
       <div className="w-full max-w-2xl">
         {/* Header Section */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-linear-to-br from-blue-500 to-purple-600 mb-4">
             <CheckCircle2 className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
+          <h1 className="text-4xl font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
             Welcome to Desis Hub
           </h1>
           <p className="text-slate-600 dark:text-slate-400 text-lg">
@@ -135,7 +135,7 @@ const Page = () => {
               key={step}
               className={`h-2 rounded-full transition-all duration-300 ${
                 step <= currentStep
-                  ? "w-12 bg-gradient-to-r from-blue-500 to-purple-600"
+                  ? "w-12 bg-linear-to-r from-blue-500 to-purple-600"
                   : "w-8 bg-slate-200 dark:bg-slate-700"
               }`}
             />
@@ -342,7 +342,7 @@ const Page = () => {
             {/* Submit Button */}
             <Button
               type="submit"
-              className="w-full h-12 text-base font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="w-full h-12 text-base font-semibold bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
