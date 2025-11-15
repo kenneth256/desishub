@@ -38,7 +38,7 @@ export async function middleware(request: NextRequest) {
   }
 
 
-  if (token && (isLoginPage || isHomePage)) {
+  if (token && isLoginPage) {
     return NextResponse.redirect(new URL("/answer", request.url));
   }
  
@@ -47,7 +47,7 @@ export async function middleware(request: NextRequest) {
   }
 
    if (token && isDashboardPage && userEmail !== "kennethdavid256@gmail.com") {
-    return NextResponse.redirect(new URL("/answer", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();
