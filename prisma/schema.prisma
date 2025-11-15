@@ -16,6 +16,7 @@ model CANDIDATE {
   email      String   @unique
   phone      String   @unique
   tier String
+  passWord String?
   answers    Answer[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

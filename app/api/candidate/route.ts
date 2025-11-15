@@ -1,34 +1,41 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
+import { signToken } from "../JWT";
 
 
 
 export async function POST(req: Request) {
   try {
-    const { name, email, phone, tier } = await req.json();
+    const { name, email, phone, tier, passWord } = await req.json();
 
  
-    if (!name || !email || !phone || !tier) {
+    if (!name || !email || !phone || !tier || !passWord) {
       return NextResponse.json(
         { error: "All fields are required" },
         { status: 400 }
       );
     }; 
+    const hashedPassword = await bcrypt.hash(passWord, 10)
     const response = await  prisma.cANDIDATE.create({
         data: {
             fullName: name,
             email,
             phone,
-            tier
+            tier,
+            passWord: hashedPassword
            
         }
     })
+
+    const token = signToken({id: response.id, email: response.email})
   
 
     return NextResponse.json(
       {
         message: "Candidate created successfully",
-        response
+        candidate: response,
+        token
        
       },
       { status: 201 }

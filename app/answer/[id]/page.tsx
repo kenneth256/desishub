@@ -21,8 +21,8 @@ const Page = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const params = useParams();
-  const tierFromUrl = params.id as string;
-  console.log("tier", tierFromUrl);
+  const tier = params.id as string;
+
   const options = [
     { label: "True", value: true },
     { label: "False", value: false },
@@ -33,7 +33,7 @@ const Page = () => {
       try {
         setLoading(true);
         const response = await axios.get("/api/qscreate", {
-          params: { tier: tierFromUrl },
+          params: { tier },
         });
         setQuestion(response.data);
       } catch (error) {
@@ -43,12 +43,12 @@ const Page = () => {
       }
     };
 
-    if (tierFromUrl) {
+    if (tier) {
       fetchQuestions();
     } else {
       setLoading(false);
     }
-  }, [tierFromUrl]);
+  }, [tier]);
 
   const handleAnswer = (questionId: string, answer: boolean) => {
     setAnswers((prev) => ({ ...prev, [questionId]: answer }));
@@ -91,13 +91,12 @@ const Page = () => {
 
   if (loading) return <div className="p-4">Loading questions...</div>;
 
-  if (!tierFromUrl)
-    return <div className="p-4">Please select a tier first</div>;
+  if (!tier) return <div className="p-4">Please select a tier first</div>;
 
   return (
     <div className="p-4">
       <h1 className="uppercase font-bold text-2xl mb-6">
-        ANSWER THESE QUESTIONS FOR {tierFromUrl}
+        ANSWER THESE QUESTIONS FOR {tier}
       </h1>
       <div className="space-y-4">
         {questions.length > 0 ? (
@@ -123,7 +122,7 @@ const Page = () => {
             </div>
           ))
         ) : (
-          <p>No questions available for {tierFromUrl}</p>
+          <p>No questions available for {tier}</p>
         )}
       </div>
       {questions.length > 0 && (

@@ -22,6 +22,7 @@ type FormData = {
   email: string;
   phone: string;
   tier: string;
+  password: string;
 };
 
 const Page = () => {
@@ -45,9 +46,14 @@ const Page = () => {
   const router = useRouter();
   const submitInfo = async (data: FormData) => {
     try {
+      const userExists = await axios.get("/api/canditate", {
+        params: { email: data.email },
+      });
+      if (userExists) {
+        alert("You already attempted this exercise!");
+      }
       const result = await axios.post("/api/candidate", data);
       const userData = { ...data, TierLabel };
-      localStorage.setItem("user", JSON.stringify(userData));
       reset();
       router.push(`/answer/${tier}`);
     } catch (error) {
@@ -112,6 +118,22 @@ const Page = () => {
               type="tel"
               placeholder="Phone number"
               {...register("phone", { required: "Phone number is required" })}
+            />
+            {errors.phone && (
+              <span className="text-sm text-red-500">
+                {errors.phone.message}
+              </span>
+            )}
+          </div>
+          <div className="gap-2 flex flex-col w-full mb-3">
+            <Label htmlFor="password">Enter password?</Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="Phone number"
+              {...register("password", {
+                required: "Phone number is required",
+              })}
             />
             {errors.phone && (
               <span className="text-sm text-red-500">
