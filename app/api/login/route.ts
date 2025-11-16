@@ -44,7 +44,7 @@ export async function POST(req: Request) {
       tier: candidate.tier
     });
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       message: "Login successful",
       candidate: {
         id: candidate.id,
@@ -55,6 +55,15 @@ export async function POST(req: Request) {
       },
       token,
     });
+
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24, 
+      path: "/",
+    });
+
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(
