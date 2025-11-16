@@ -130,13 +130,13 @@ const Page = () => {
             <h1 className="text-m sm:text-4xl font-bold text-white uppercase tracking-tight">
               {tier} Assessment
             </h1>
-            <p className="text-white mt-2 text-sm sm:text-base">
+            <p className="text-white mt-1 text-sm sm:text-base">
               Answer all questions honestly. Your responses help us understand
               your qualifications.
             </p>
           </div>
 
-          {/* Progress Bar */}
+         
           {totalQuestions > 0 && (
             <div className="space-y-2">
               <div className="flex justify-between items-center text-sm">
@@ -156,32 +156,30 @@ const Page = () => {
         </div>
       </div>
 
-      {/* Questions */}
+    
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="space-y-6">
+        <div className="p-2">
           {questions.length > 0 ? (
             questions.map((question, index) => (
               <div
                 key={question.id}
-                className="bg-white rounded-2xl border-2 border-black p-6 sm:p-8 hover:shadow-2xl transition-all duration-200"
+                className="bg-white hover:shadow-2xl transition-all duration-200"
               >
                 <div className="flex items-start gap-4 sm:gap-6">
                   <div className="shrink-0">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-black flex items-center justify-center">
-                      <span className="text-white font-bold text-lg sm:text-xl">
+                    <div className="rounded-full h-6 w-6 border border-black/70 flex items-center justify-center">
+                      <span className="text-black/70 font-bold text-lg sm:text-xl">
                         {index + 1}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex-1 space-y-4 sm:space-y-6">
-                    {/* Question Text */}
-                    <p className="text-lg sm:text-xl font-medium text-black leading-relaxed">
+                  <div className="flex-1 space-y-1">
+                    <p className="font-medium text-black leading-relaxed">
                       {question.questionText}?
                     </p>
 
-                    {/* Answer Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                    <div className="flex flex-col gap-2">
                       {options.map((option) => (
                         <Button
                           key={option.label}
@@ -193,10 +191,10 @@ const Page = () => {
                               ? "default"
                               : "outline"
                           }
-                          className={`flex-1 h-14 sm:h-16 text-base sm:text-lg font-semibold rounded-xl transition-all duration-200 ${
+                          className={`w-fit text-base font-semibold rounded-xl transition-all duration-200 ${
                             answers[question.id] === option.value
-                              ? "bg-black text-white hover:bg-gray-800 border-2 border-black shadow-lg"
-                              : "bg-white text-black border-2 border-gray-300 hover:border-black hover:bg-gray-50"
+                              ? "bg-black text-white hover:bg-gray-800 border border-black shadow-lg"
+                              : "bg-white text-black border border-gray-300 hover:border-black hover:bg-gray-50"
                           }`}
                         >
                           {option.label}
@@ -209,7 +207,7 @@ const Page = () => {
             ))
           ) : (
             <div className="text-center py-16">
-              <div className="bg-gray-100 rounded-2xl border-2 border-gray-300 p-12">
+              <div className="bg-gray-100  p-12">
                 <p className="text-black text-xl font-medium">
                   No questions available for {tier}
                 </p>
@@ -221,12 +219,11 @@ const Page = () => {
           )}
         </div>
 
-        {/* Submit Button */}
         {questions.length > 0 && (
-          <div className="mt-10 sm:mt-12">
+          <div className="mt-8">
             <Button
               disabled={answeredCount < totalQuestions || isSubmitting}
-              className="w-full h-16 sm:h-20 text-lg sm:text-xl font-bold rounded-xl bg-black hover:bg-gray-800 disabled:bg-gray-400 disabled:text-gray-200 transition-all duration-200 shadow-xl hover:shadow-2xl disabled:shadow-none"
+              className="w-full h-6  py-4 text-lg font-bold rounded-xl bg-blue-500 hover:bg-blue-300 disabled:bg-gray-400 disabled:text-gray-200 transition-all duration-200 shadow-xl hover:shadow-2xl disabled:shadow-none"
               onClick={() => handleSubmit(answers)}
             >
               {isSubmitting ? (
