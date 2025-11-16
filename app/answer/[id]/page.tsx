@@ -83,38 +83,64 @@ const Page = () => {
 
   const handleSubmit = async (data: any) => {
     setIsSubmitting(true);
+
     try {
+     
       const token = Cookies.get("token");
-      console.log(token);
+
       if (!token) {
         toast.error("User not logged in!");
         router.push("/login");
+        setIsSubmitting(false);
         return;
       }
-      const decoded: any = jwtDecode(token);
+
+     
+      let decoded: any;
+      try {
+        decoded = jwtDecode(token);
+      } catch (error) {
+        console.error("Token decode error:", error);
+        toast.error("Invalid session. Please login again.");
+        router.push("/login");
+        setIsSubmitting(false);
+        return;
+      }
+
+      const candidateId = decoded.id; 
       const userEmail = decoded.email;
 
-      const candidateResponse = await axios.get("/api/candidate", {
-        params: { email: userEmail },
-      });
-
-      const candidateId = candidateResponse.data.id;
-
+      console.log("Candidate ID:", candidateId);
+      console.log("User email:", userEmail);
       const answersArray = Object.entries(data).map(([questionId, value]) => ({
         questionId,
         value,
       }));
+
+      console.log("Submitting answers:", answersArray);
+
+      // Submit answers - don't send candidateId, it's read from token on server
       const result = await axios.post("/api/answer", {
         answers: answersArray,
-        candidateId,
       });
+
+      console.log("Submission result:", result.data);
+
       toast.success(
-        "you have successfully submitted your response, our HR will be reching out soon!"
+        "You have successfully submitted your response! Our HR will be reaching out soon!"
       );
+
       router.push("/success");
-      setIsSubmitting(false);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.error("❌ Submission error:", error);
+
+      if (error.response?.status === 401) {
+        toast.error("Session expired. Please login again.");
+        router.push("/login");
+      } else {
+        toast.error(error.response?.data?.error || "Failed to submit answers");
+      }
+    } finally {
       setIsSubmitting(false);
     }
   };

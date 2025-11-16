@@ -32,8 +32,7 @@ const LoginPage = () => {
 
     try {
       const response = await axios.post("/api/login", data);
-      Cookies.set("token", response.data.token, { expires: 1 });
-      console.log(response.data);
+
       if (response.status === 200) {
         toast.success("You have logged in successfully!");
         router.push(`/answer/${response.data.candidate.tier}`);
@@ -41,6 +40,7 @@ const LoginPage = () => {
         toast.error("Login failed!");
       }
     } catch (error: any) {
+      console.error("Login error:", error);
       if (error.response?.status === 401) {
         setLoginError("Invalid email or password");
       } else {
