@@ -20,6 +20,7 @@ export async function middleware(request: NextRequest) {
       console.log(payload)
       userEmail = payload.email as string;
       tier = payload.tier as string;
+      console.log(tier)
     } catch (error) {
       console.error("Invalid token:", error);
       if (isAnswerPage || isDashboardPage) {
@@ -39,8 +40,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-
-  if (token && tier && (isLoginPage || isHomePage)) {
+if (token && tier && (isLoginPage || isHomePage)) {
   return NextResponse.redirect(new URL(`/answer/${tier}`, request.url));
 }
  

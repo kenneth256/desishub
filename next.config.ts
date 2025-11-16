@@ -1,12 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next";
 
-  swcMinify: true,
+const nextConfig: NextConfig = {
   compress: true,
-
   experimental: {
     optimizePackageImports: ['lucide-react', '@/components/ui'],
   },
-}
+};
 
-module.exports = nextConfig
+export default nextConfig;

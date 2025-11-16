@@ -38,7 +38,11 @@ export async function POST(req: Request) {
     }
 
 
-    const token = signToken({id: candidate.id, email: candidate.email, tier: candidate.tier})
+    const token = signToken({
+      id: candidate.id,
+      email: candidate.email,
+      tier: candidate.tier
+    });
 
     return NextResponse.json({
       message: "Login successful",

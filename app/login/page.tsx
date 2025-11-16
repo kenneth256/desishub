@@ -170,7 +170,7 @@ const LoginPage = () => {
           </div>
 
           {/* Register Link */}
-          <Link href="/register">
+          <Link href="/">
             <Button variant="outline" type="button" className="w-full">
               Create Account
             </Button>
