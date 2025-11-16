@@ -7,9 +7,9 @@ export async function POST(req: Request) {
   console.log("🚀 POST /api/candidate called");
   
   try {
-    let body;
+    let body: any;
     
-    // Parse and log the request body
+  
     try {
       body = await req.json();
       console.log("📥 Received POST body:", JSON.stringify(body, null, 2));
@@ -23,37 +23,21 @@ export async function POST(req: Request) {
     
     const { name, email, phone, tier, passWord } = body;
     
-    // Log each field
-    console.log("🔍 Extracted fields:", { 
-      name: name || "MISSING", 
-      email: email || "MISSING", 
-      phone: phone || "MISSING", 
-      tier: tier || "MISSING", 
-      passWord: passWord ? "PROVIDED" : "MISSING"
-    });
+  
     
     if (!name || !email || !phone || !tier || !passWord) {
-      const missing = [];
-      if (!name) missing.push('name');
-      if (!email) missing.push('email');
-      if (!phone) missing.push('phone');
-      if (!tier) missing.push('tier');
-      if (!passWord) missing.push('passWord');
       
-      console.log("❌ Missing required fields:", missing);
       
       return NextResponse.json(
         { 
           error: "All fields are required",
-          missing: missing,
           received: Object.keys(body)
         },
         { status: 400 }
       );
     }
    
-    console.log("✅ All fields present, checking for existing user...");
-    
+    console.log("✅ All fields present, checking for existing user...");    
     const existingCandidate = await prisma.cANDIDATE.findUnique({
       where: { email },
     });
@@ -65,8 +49,6 @@ export async function POST(req: Request) {
         { status: 409 }
       );
     }
-
-    console.log("✅ User doesn't exist, creating new candidate...");
     
     const hashedPassword = await bcrypt.hash(passWord, 10);
     const response = await prisma.cANDIDATE.create({
@@ -79,9 +61,9 @@ export async function POST(req: Request) {
       }
     });
 
-    console.log("✅ Candidate created successfully:", response.email);
+   
     
-    const token = signToken({id: response.id, email: response.email});
+    const token = signToken({id: response.id, email: response.email, tier: response.tier});
 
     return NextResponse.json(
       {

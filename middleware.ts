@@ -12,12 +12,14 @@ export async function middleware(request: NextRequest) {
   const isDashboardPage = pathname === '/dashboard'
 
   let userEmail = null;
+  let tier = null;
   if (token) {
     try {
       const secret = new TextEncoder().encode(process.env.JWT_SECRET);
       const { payload } = await jwtVerify(token, secret);
       console.log(payload)
       userEmail = payload.email as string;
+      tier = payload.tier as string;
     } catch (error) {
       console.error("Invalid token:", error);
       if (isAnswerPage || isDashboardPage) {
@@ -38,8 +40,11 @@ export async function middleware(request: NextRequest) {
   }
 
 
-  if (token && isLoginPage) {
-    return NextResponse.redirect(new URL("/answer", request.url));
+  if(token && tier) {
+    if (token && isLoginPage || token && isHomePage) {
+        const redirectUrl = tier && `/answer/${tier}`;
+    return NextResponse.redirect(new URL(redirectUrl, request.url));
+  }
   }
  
   if (!token && isAnswerPage) {

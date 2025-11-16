@@ -39,10 +39,10 @@ const Page = () => {
   };
 
   const getScoreBadgeVariant = (score: number) => {
-    if (score >= 80) return "default"; 
-    if (score >= 60) return "secondary"; 
-    if (score >= 40) return "outline"; 
-    return "destructive"; 
+    if (score >= 80) return "default";
+    if (score >= 60) return "secondary";
+    if (score >= 40) return "outline";
+    return "destructive";
   };
 
   const getTierColor = (tier: string) => {
@@ -77,10 +77,10 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-muted/30 to-muted/10 py-12">
+    <div className="w-full min-h-screen bg-linear-to-br from-muted/30 to-muted/10 py-12">
       <div className="max-w-6xl mx-auto px-4">
         <div className="mb-8 text-center space-y-2">
-          <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-extrabold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             Candidates & Results
           </h1>
           <p className="text-muted-foreground text-lg">
