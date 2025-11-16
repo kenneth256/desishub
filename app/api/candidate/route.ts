@@ -95,6 +95,9 @@ export async function GET(req: Request) {
 
     const candidate = await prisma.cANDIDATE.findUnique({
       where: { email },
+      include: {
+        answers: true, 
+      },
     });
 
     if (!candidate) {

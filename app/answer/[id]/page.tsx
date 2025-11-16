@@ -52,6 +52,31 @@ const Page = () => {
     }
   }, [tier]);
 
+  useEffect(() => {
+    const checkUserAnswered = async () => {
+      try {
+        const token = Cookies.get("token");
+        if (!token) return;
+
+        const decoded: any = jwtDecode(token);
+        const userEmail = decoded.email;
+
+        const response = await axios.get("/api/candidate", {
+          params: { email: userEmail },
+        });
+
+        const candidate = response.data;
+
+        if (candidate.answers.length > 0) {
+          router.push("/attempted");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    checkUserAnswered();
+  }, []);
   const handleAnswer = (questionId: string, answer: boolean) => {
     setAnswers((prev) => ({ ...prev, [questionId]: answer }));
   };
@@ -60,7 +85,8 @@ const Page = () => {
     setIsSubmitting(true);
     try {
       const token = Cookies.get("token");
-      if (!token) {
+      console.log(token);
+      if (token) {
         toast.error("User not logged in!");
         router.push("/login");
         return;
