@@ -31,7 +31,7 @@ export async function middleware(request: NextRequest) {
   
 }
 
-  if (token && userEmail === "kennethdavid256@gmail.com") {
+  if (token && userEmail === "admin2@gmail.com") {
   if (isLoginPage || isHomePage || isAnswerPage) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
@@ -57,5 +57,5 @@ if (token && tier && (isLoginPage || isHomePage)) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/answer/:path*", "/dashboard/:path*"],
+  matcher: ["/", "/login", "/answer/:path*", "/dashboard/:path*", "/createQs"],
 };
