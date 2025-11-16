@@ -49,7 +49,7 @@ if (token && tier && (isLoginPage || isHomePage)) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-   if (token && (isDashboardPage || isCreateQs) && userEmail !== "kennethdavid256@gmail.com") {
+   if (token && (isDashboardPage || isCreateQs) && userEmail !== "admin2@gmail.com") {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
