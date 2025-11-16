@@ -40,12 +40,9 @@ export async function middleware(request: NextRequest) {
   }
 
 
-  if(token && tier) {
-    if (token && isLoginPage || token && isHomePage) {
-        const redirectUrl = tier && `/answer/${tier}`;
-    return NextResponse.redirect(new URL(redirectUrl, request.url));
-  }
-  }
+  if (token && tier && (isLoginPage || isHomePage)) {
+  return NextResponse.redirect(new URL(`/answer/${tier}`, request.url));
+}
  
   if (!token && isAnswerPage) {
     return NextResponse.redirect(new URL("/login", request.url));
