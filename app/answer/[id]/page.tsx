@@ -136,7 +136,6 @@ const Page = () => {
             </p>
           </div>
 
-         
           {totalQuestions > 0 && (
             <div className="space-y-2">
               <div className="flex justify-between items-center text-sm">
@@ -156,14 +155,13 @@ const Page = () => {
         </div>
       </div>
 
-    
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="p-2">
           {questions.length > 0 ? (
             questions.map((question, index) => (
               <div
                 key={question.id}
-                className="bg-white hover:shadow-2xl transition-all duration-200"
+                className="bg-white hover:shadow-2xl py-2 px-4 transition-all duration-200"
               >
                 <div className="flex items-start gap-4 sm:gap-6">
                   <div className="shrink-0">
