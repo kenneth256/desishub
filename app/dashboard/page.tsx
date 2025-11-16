@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, Mail, Phone, TrendingUp } from "lucide-react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface Answer {
   selectedAnswer: boolean;
@@ -87,6 +89,10 @@ const Page = () => {
             Performance summary and candidate details
           </p>
         </div>
+
+        <Link href={"/createQs"}>
+          <Button className="py-2 px-4">Add more questions</Button>
+        </Link>
 
         <div className="bg-background border rounded-xl shadow-lg overflow-hidden">
           {loading ? (

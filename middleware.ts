@@ -9,7 +9,8 @@ export async function middleware(request: NextRequest) {
   const isLoginPage = pathname === "/login";
   const isHomePage = pathname === "/";
   const isAnswerPage = pathname.startsWith("/answer");
-  const isDashboardPage = pathname === '/dashboard'
+  const isDashboardPage = pathname === '/dashboard';
+  const isCreateQs = pathname === '/createQs'
 
   let userEmail = null;
   let tier = null;
@@ -31,14 +32,14 @@ export async function middleware(request: NextRequest) {
 }
 
   if (token && userEmail === "kennethdavid256@gmail.com") {
-    if (isLoginPage || isHomePage || isAnswerPage) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
-    }
-  
-    if (isDashboardPage) {
-      return NextResponse.next();
-    }
+  if (isLoginPage || isHomePage || isAnswerPage) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
+
+  if (isDashboardPage || isCreateQs) {
+    return NextResponse.next();
+  }
+}
 
 if (token && tier && (isLoginPage || isHomePage)) {
   return NextResponse.redirect(new URL(`/answer/${tier}`, request.url));
@@ -48,7 +49,7 @@ if (token && tier && (isLoginPage || isHomePage)) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-   if (token && isDashboardPage && userEmail !== "kennethdavid256@gmail.com") {
+   if (token && (isDashboardPage || isCreateQs) && userEmail !== "kennethdavid256@gmail.com") {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
