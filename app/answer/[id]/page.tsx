@@ -86,7 +86,7 @@ const Page = () => {
     try {
       const token = Cookies.get("token");
       console.log(token);
-      if (token) {
+      if (!token) {
         toast.error("User not logged in!");
         router.push("/login");
         return;
